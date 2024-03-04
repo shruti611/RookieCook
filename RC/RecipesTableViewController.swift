@@ -34,6 +34,7 @@ class RecipesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> RecipeTableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RecipeCell", for: indexPath) as! RecipeTableViewCell
+        
         let recipe = recipes[indexPath.row]
         cell.update(with: recipe)
 
@@ -43,17 +44,32 @@ class RecipesTableViewController: UITableViewController {
     }
     
     
-   
+    
     @IBSegueAction func showDetailedRecipe(_ coder: NSCoder, sender: Any?) -> RecipeDetailTableViewController? {
-        
         if let cell = sender as? RecipeTableViewCell, let indexPath = tableView.indexPath(for: cell){
             let recipe = recipes[indexPath.row]
             return RecipeDetailTableViewController(coder: coder, recipe: recipe)
         }
-        return RecipeDetailTableViewController(coder: coder, recipe: nil)
-            
+        return RecipeDetailTableViewController(coder: coder,recipe: nil)
+    }
+    
+    @IBAction func unwindToRecipes(segue:UIStoryboardSegue){
+        guard segue.identifier == "unwindToRecipeList",
+              let sourceViewController = segue.source as? RecipeDetailTableViewController,
+              let recipe = sourceViewController.recipe else{
+            return
+        }
+           
+        if let selectedIndexPath = tableView.indexPathForSelectedRow {
+            recipes[selectedIndexPath.row] = recipe
+            print(recipe.favourite)
+//            Emoji.saveToFile(emojis: emojis)
+            tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
+        }
         
     }
+    
+    
     
     /*
     // Override to support conditional editing of the table view.

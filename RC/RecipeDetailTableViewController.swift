@@ -32,6 +32,9 @@ class RecipeDetailTableViewController: UITableViewController {
     @IBOutlet var recipeCookingInstructionsLabel: UILabel!
     
     
+    @IBOutlet var favouriteBarButton: UIBarButtonItem!
+    
+    
     init?(coder:NSCoder,recipe: Recipe?) {
         self.recipe = recipe
         super.init(coder: coder)
@@ -41,8 +44,7 @@ class RecipeDetailTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    fileprivate func displayRecipe() {
         title = recipe?.recipeName
         if let recipe = recipe {
             recipeImage.image = UIImage(named: recipe.recipeImageName)
@@ -52,23 +54,45 @@ class RecipeDetailTableViewController: UITableViewController {
             recipeCuisineLabel.text = "🥣 " + recipe.cuisine
             var ingredients = ""
             for ingredient in recipe.ingredients {
-                ingredients = ingredients + "\n\(ingredient)"
+                ingredients = ingredients + "\(ingredient)\n"
             }
             recipeIngredientsLabel.text = ingredients
             
             var instructions = ""
             for (number,instruction) in recipe.instructions.enumerated() {
-                instructions = instructions + "\n\n\(number+1). \(instruction)"
+                instructions = instructions + "\(number+1). \(instruction)\n\n"
             }
             
             recipeCookingInstructionsLabel.text = instructions
+            favouriteBarButton.tintColor = .red
+            if recipe.favourite {
+                favouriteBarButton.image = UIImage(systemName: "heart.fill")
+            } else {
+                favouriteBarButton.image = UIImage(systemName: "heart")
+                
+            }
+            
+            
+            
         }
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        displayRecipe()
+        
+    }
+    
+    @IBAction func favouriteBarButtonTapped(_ sender: UIBarButtonItem) {
+        recipe?.favourite.toggle()
+        displayRecipe()
+    }
+    
+    
+    @IBAction func recipesBarButtonTapped(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "unwindToRecipeList", sender: sender)
+    }
+    
+    
     
 }

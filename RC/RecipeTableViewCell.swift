@@ -7,7 +7,11 @@
 
 import UIKit
 
+
+
+
 class RecipeTableViewCell: UITableViewCell {
+    
 
     @IBOutlet var recipeImageView: UIImageView!
     
@@ -20,6 +24,9 @@ class RecipeTableViewCell: UITableViewCell {
     
     
     @IBOutlet var recipeCuisineLabel: UILabel!
+    
+    @IBOutlet var favouriteButton: UIButton!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,6 +49,22 @@ class RecipeTableViewCell: UITableViewCell {
         recipeNoOfIngredientsLabel.text = "# of Ingredients: \(recipe.ingredients.count)"
         recipeCookingTimeLabel.text = "⏰ \(recipe.cookingTime)"
         recipeCuisineLabel.text = "🍽️ \(recipe.cuisine)"
+        if recipe.favourite {
+            let largeConfig = UIImage.SymbolConfiguration(pointSize: 12, weight: .bold, scale: .large)
+                   
+            let largeBoldDoc = UIImage(systemName: "heart.fill", withConfiguration: largeConfig)
+            favouriteButton.setImage(largeBoldDoc, for: .normal)
+            favouriteButton.tintColor = .red
+        }
+        else{
+//            let largeConfig = UIImage.SymbolConfiguration(pointSize: 12, weight: .bold, scale: .large)
+//
+//            let largeBoldDoc = UIImage(systemName: "", withConfiguration: largeConfig)
+//            favouriteButton.setImage(largeBoldDoc, for: .normal)
+            favouriteButton.isHidden = true
+            
+        }
     }
+    
 
 }
