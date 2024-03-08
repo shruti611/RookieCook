@@ -15,7 +15,7 @@ class RecipeDetailTableViewController: UITableViewController {
     
     @IBOutlet var recipeImage: UIImageView!
     
-    @IBOutlet var recipeNameLabel: UILabel!
+    @IBOutlet var recipeCaloriesLabel: UILabel!
     
     
     @IBOutlet var recipeCookingTimeLabel: UILabel!
@@ -48,10 +48,10 @@ class RecipeDetailTableViewController: UITableViewController {
         title = recipe?.recipeName
         if let recipe = recipe {
             recipeImage.image = UIImage(named: recipe.recipeImageName)
-            recipeNameLabel.text = recipe.recipeName
+            recipeCaloriesLabel.text = "⚖️ \(recipe.calories) ㎉"
             recipeCookingTimeLabel.text = "⏰ " + recipe.cookingTime
             recipeCourseLabel.text = "🍽️ " + recipe.course
-            recipeCuisineLabel.text = "🥣 " + recipe.cuisine
+            recipeCuisineLabel.text = "🥣 " + "\(recipe.cuisine)"
             var ingredients = ""
             for ingredient in recipe.ingredients {
                 ingredients = ingredients + "\(ingredient)\n"

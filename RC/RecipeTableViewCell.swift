@@ -23,7 +23,7 @@ class RecipeTableViewCell: UITableViewCell {
     @IBOutlet var recipeCookingTimeLabel: UILabel!
     
     
-    @IBOutlet var recipeCuisineLabel: UILabel!
+    @IBOutlet var recipeCaloriesLabel: UILabel!
     
     @IBOutlet var favouriteButton: UIButton!
     
@@ -46,10 +46,11 @@ class RecipeTableViewCell: UITableViewCell {
         recipeNameLabel.translatesAutoresizingMaskIntoConstraints = false
         recipeNameLabel.numberOfLines = 0
         recipeNameLabel.lineBreakMode = .byWordWrapping
-        recipeNoOfIngredientsLabel.text = "# of Ingredients: \(recipe.ingredients.count)"
+        recipeNoOfIngredientsLabel.text = "#️⃣ of Ingredients: \(recipe.ingredients.count)"
         recipeCookingTimeLabel.text = "⏰ \(recipe.cookingTime)"
-        recipeCuisineLabel.text = "🍽️ \(recipe.cuisine)"
+        recipeCaloriesLabel.text = "🔍 \(recipe.calories) kcals"
         if recipe.favourite {
+            favouriteButton.isHidden = false
             let largeConfig = UIImage.SymbolConfiguration(pointSize: 12, weight: .bold, scale: .large)
                    
             let largeBoldDoc = UIImage(systemName: "heart.fill", withConfiguration: largeConfig)

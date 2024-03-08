@@ -23,19 +23,47 @@ class RecipesTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        var cuisineTypes:[Cuisines] = []
+        for recipe in recipes {
+            if !cuisineTypes.contains(recipe.cuisine){
+                cuisineTypes.append(recipe.cuisine)
+            }
+            
+        }
+        print("____Inside func numberOfSections___")
+        print(cuisineTypes)
+        return cuisineTypes.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return recipes.count
+        var sectionWiseRecipes:[Recipe] = []
+        for recipe in recipes {
+            if recipe.cuisine == Cuisines.element(at: section) {
+                sectionWiseRecipes.append(recipe)
+            }
+            
+        }
+        print("___Inside func numberOfRowsinSection___\(section)")
+        print(sectionWiseRecipes)
+        return sectionWiseRecipes.count
     }
 
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        return "\(Cuisines.element(at: section))"
+    }
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> RecipeTableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RecipeCell", for: indexPath) as! RecipeTableViewCell
-        
-        let recipe = recipes[indexPath.row]
+        var recipesForSection:[Recipe] = []
+        for recipe in recipes{
+            if recipe.cuisine == Cuisines.element(at: indexPath.section){
+                recipesForSection.append(recipe)
+            }
+        }
+        let recipe = recipesForSection[indexPath.row]
         cell.update(with: recipe)
 
         // Configure the cell...
@@ -47,7 +75,13 @@ class RecipesTableViewController: UITableViewController {
     
     @IBSegueAction func showDetailedRecipe(_ coder: NSCoder, sender: Any?) -> RecipeDetailTableViewController? {
         if let cell = sender as? RecipeTableViewCell, let indexPath = tableView.indexPath(for: cell){
-            let recipe = recipes[indexPath.row]
+            var recipesForSection:[Recipe] = []
+            for recipe in recipes{
+                if recipe.cuisine == Cuisines.element(at: indexPath.section){
+                    recipesForSection.append(recipe)
+                }
+            }
+            let recipe = recipesForSection[indexPath.row]
             return RecipeDetailTableViewController(coder: coder, recipe: recipe)
         }
         return RecipeDetailTableViewController(coder: coder,recipe: nil)
@@ -61,9 +95,13 @@ class RecipesTableViewController: UITableViewController {
         }
            
         if let selectedIndexPath = tableView.indexPathForSelectedRow {
-            recipes[selectedIndexPath.row] = recipe
+            for (index,oneOftheRecipe) in recipes.enumerated() {
+                if recipe.recipeName==oneOftheRecipe.recipeName {
+                    recipes[index] = recipe
+                }
+            }
+//            recipes[selectedIndexPath.row] = recipe
             print(recipe.favourite)
-//            Emoji.saveToFile(emojis: emojis)
             tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
         }
         
