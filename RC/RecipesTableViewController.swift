@@ -30,8 +30,8 @@ class RecipesTableViewController: UITableViewController {
             }
             
         }
-        print("____Inside func numberOfSections___")
-        print(cuisineTypes)
+//        print("____Inside func numberOfSections___")
+//        print(cuisineTypes)
         return cuisineTypes.count
     }
 
@@ -44,8 +44,8 @@ class RecipesTableViewController: UITableViewController {
             }
             
         }
-        print("___Inside func numberOfRowsinSection___\(section)")
-        print(sectionWiseRecipes)
+//        print("___Inside func numberOfRowsinSection___\(section)")
+//        print(sectionWiseRecipes)
         return sectionWiseRecipes.count
     }
 

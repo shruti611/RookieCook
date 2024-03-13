@@ -88,10 +88,18 @@ class RecipeDetailTableViewController: UITableViewController {
         displayRecipe()
     }
     
+    @IBSegueAction func playButtonTapped(_ coder: NSCoder) -> RecipeInstructionsTableViewController? {
+        let recipeIntrutcionTableViewController = RecipeInstructionsTableViewController(coder: coder, recipe: recipe)
+        
+        
+        return recipeIntrutcionTableViewController
+    }
     
     @IBAction func recipesBarButtonTapped(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "unwindToRecipeList", sender: sender)
     }
+    
+    
     
     
     
